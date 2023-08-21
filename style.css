@@ -1,0 +1,109 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.winResult {
+  display: none;
+}
+.noneDisplay {
+  display: none;
+}
+.winResultShow {
+  display: block;
+  font-size: 10rem;
+  color: rgb(9, 39, 9);
+  animation-name: win;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes win {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.gameOver {
+  display: none;
+}
+
+.gameOverResult {
+  display: block;
+  background-color: red;
+  font-size: 10rem;
+  color: white;
+  animation-name: loose;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes loose {
+  from {
+    font-size: 2rem;
+    padding: 1rem;
+  }
+  to {
+    font-size: 10rem;
+    padding: 2rem;
+  }
+}
+
+#timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: -60px;
+  left: 3px;
+  color: yellow;
+  font-size: 5rem;
+}
+
+section {
+  display: grid;
+  grid-template: repeat(4, 150px) / repeat(4, 150px);
+  grid-gap: 4px;
+}
+
+.card {
+  background-color: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+i {
+  font-size: 3rem;
+  color: white;
+  display: none !important;
+}
+
+.show i {
+  display: block !important;
+}
+
+.matched {
+  background-color: green;
+}
+
+.unmatched {
+  background-color: red;
+}
+
+.show {
+  pointer-events: none;
+}
+
+.freeze {
+  pointer-events: none;
+}
