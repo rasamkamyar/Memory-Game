@@ -6,15 +6,12 @@ let h2 = document.querySelector("h2");
 let section = document.querySelector("section");
 let openCards = [];
 let matchedCount = 0;
-let falseCount = 35;
-
+let timer = document.getElementById("timer");
+let moveCounter = document.getElementById("move-counter");
+let falseCount = 10;
 let time = 120;
-let countDown = setInterval(function () {
-  if (time <= 0) {
-    clearInterval(countDown);
-  }
-  document.getElementById("timer").innerHTML = time--;
-}, 1000);
+let startTimerInterval = null;
+let moveCount = 0;
 
 // functions
 function showCard() {
@@ -27,8 +24,8 @@ function showCard() {
     } else {
       openCards[0].classList.add("unmatched");
       openCards[1].classList.add("unmatched");
+      moveCountFn();
       freezeAll();
-
       // back openCards to previous state
       setTimeout(unmatchecards, 500);
     }
@@ -44,6 +41,7 @@ function matchCards() {
   if (matchedCount === 16) {
     section.classList.add("noneDisplay");
     h1.classList.add("winResultShow");
+    clearInterval(startTimerInterval);
   }
 }
 
@@ -51,17 +49,16 @@ function unmatchecards() {
   openCards[0].classList.remove("unmatched", "show");
   openCards[1].classList.remove("unmatched", "show");
   openCards.length = 0;
-  looseGame();
+  loseGame();
   unFreezeAll();
 }
 
-function looseGame() {
-  for (let i = 0; i < falseCount; i++) {
-    --falseCount;
-    if (falseCount === 1) {
-      section.classList.add("noneDisplay");
-      h2.classList.add("gameOverResult");
-    }
+function loseGame() {
+  --falseCount;
+  if (falseCount === 0) {
+    section.classList.add("noneDisplay");
+    h2.classList.add("gameOverResult");
+    clearInterval(startTimerInterval);
   }
 }
 
@@ -102,6 +99,7 @@ function startGame() {
   }
   showAllCards();
   setTimeout(hideAllCards, 3000);
+  setTimeout(startTimer, 3000);
 }
 
 function shuffle(array) {
@@ -115,12 +113,22 @@ function shuffle(array) {
   return array;
 }
 
+function startTimer() {
+  startTimerInterval = setInterval(function () {
+    if (time <= 0) {
+      clearInterval(countDown);
+    }
+    timer.innerHTML = time--;
+  }, 1000);
+}
+
+function moveCountFn() {
+  moveCount++;
+  moveCounter.textContent = moveCount;
+}
+
 // events
 for (const box of boxes) {
   box.addEventListener("click", showCard);
 }
 window.addEventListener("load", startGame);
-
-// entekhabe doroste adad baraye halghe baraaye mizane khata (falsecount)
-// estefade dorost az timer b hengame shoru va etmame game
-// function gozashtan bar ruye timer
